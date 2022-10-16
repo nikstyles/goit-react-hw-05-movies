@@ -1,5 +1,5 @@
 import { useParams, useLocation, Link } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { getMovieDetails } from '../API/movie-api';
 import MovieDetailsInfo from 'components/MovieDetailsInfo';
 import s from './MovieDetails.module.css';
@@ -10,7 +10,7 @@ const MovieDetails = () => {
   const [details, setDetails] = useState(null);
   const { movieId } = useParams();
 
-  const backLink = useRef(location.state?.from ? location.state.from : '/');
+  const backLink = location.state?.from ?? '/';
 
   useEffect(() => {
     getMovieDetails(Number(movieId)).then(details => setDetails(details));
@@ -18,7 +18,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={backLink.current} className={s.back_link}>
+      <Link to={backLink} className={s.back_link}>
         <IoMdArrowRoundBack size={'18px'} /> Go Back
       </Link>
       {details && <MovieDetailsInfo details={details} />}
